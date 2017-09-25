@@ -11,7 +11,7 @@ public class Main {
 	"DOT",				// .
 	"TRUE",				// #t
 	"FALSE",			// #f
-	"INT",				// integer constant
+	"INT",				    // integer constant
 	"STRING",			// string constant
 	"IDENT"				// identifier
     };
