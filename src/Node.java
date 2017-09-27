@@ -1,6 +1,13 @@
 import java.io.*;
 
 class Node {
+	private Node _childNode;
+	private Token _token;
+	
+	public Node(Token[] t){
+		
+	}
+	
   // The argument of print(int) is the number of characters to indent.
   // Every subclass of Node must implement print(int).
   void print(int n) {}

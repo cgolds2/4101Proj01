@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+
 // Parser.java -- the implementation of class Parser
 //
 // Defines
@@ -34,19 +36,61 @@
 // or an RPAREN) and attempts to continue parsing with the next token.
 
 class Parser {
-  private Scanner scanner;
+	private Scanner scanner;
+	private Token[] tokens;
 
-  public Parser(Scanner s) { scanner = s; }
-  
-  public Node parseExp() {
-    // TODO: write code for parsing an exp
-    return null;
-  }
-  
-  protected Node parseRest() {
-    // TODO: write code for parsing rest
-    return null;
-  }
-  
-  // TODO: Add any additional methods you might need.
+	public Parser(Scanner s) {
+		scanner = s;
+	}
+	// debug scanner
+	/*
+	 * Token tok = scanner.getNextToken(); while (tok != null) { int tt =
+	 * tok.getType(); System.out.print(TokenName[tt]); if (tt == Token.INT)
+	 * System.out.println(", intVal = " + tok.getIntVal()); else if (tt ==
+	 * Token.STRING) System.out.println(", strVal = " + tok.getStrVal()); else
+	 * if (tt == Token.IDENT) System.out.println(", name = " + tok.getName());
+	 * else System.out.println();
+	 * 
+	 * tok = scanner.getNextToken();
+	 */
+
+	public Node parseExp() {
+		// TODO: write code for parsing an exp
+		// STEPS
+		// GET THE LIST
+		ArrayList<Token> listOfTokens = new ArrayList<>();
+		Token tok = scanner.getNextToken();
+		// creates the list of tokens
+		while (tok != null) {
+			if (isExpression(tok)) {
+				listOfTokens.add(tok);
+			}
+			tok = scanner.getNextToken();
+		}
+
+		Node ret = parseRest(listOfTokens);
+
+		return ret;
+	}
+
+	protected Node parseRest(ArrayList<Token> listOfTokens) {
+		// TODO: write code for parsing rest
+		return null;
+	}
+
+	private boolean isExpression(Token t) {
+		if(t.getType() == TokenType.LPAREN){
+			return isRest(t);
+		}
+		return (t.getType() == TokenType.FALSE || t.getType() == TokenType.TRUE || t.getType() == TokenType.IDENT
+				|| t.getType() == TokenType.INT  || t.getType() == TokenType.QUOTE
+				|| t.getType() == TokenType.STRING);
+	}
+	
+	private boolean isRest(Token t){
+		while(isExpression(t)){
+			
+		}
+		return (t.getType() == TokenType.RPAREN );
+	}
 };
