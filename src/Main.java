@@ -48,13 +48,20 @@ public class Main {
 	// Create parser
 	Parser parser = new Parser(scanner);
 	Node root;
-	
+	Node curNode;
 	// Parse and pretty-print each input expression
 	root = parser.parseExp();
-	while (root != null) {
-	    root.print(0);
-	    root = parser.parseExp();
+	curNode = root;
+	int spaces = 10;
+	System.out.printf("%" + 10+ "s%n", "cons");
+
+	while (curNode != null) {
+		curNode.print(spaces);
+		curNode.setCdr(parser.parseExp());
+		curNode = curNode.getCdr();
+	    spaces+=4;
 	}
+	System.out.printf("%" + spaces + "s%n","()");
 	System.exit(0);
     }
 }

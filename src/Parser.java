@@ -55,42 +55,71 @@ class Parser {
 	 */
 
 	public Node parseExp() {
-		// TODO: write code for parsing an exp
-		// STEPS
-		// GET THE LIST
-		ArrayList<Token> listOfTokens = new ArrayList<>();
+		// write code for parsing an exp
+	
 		Token tok = scanner.getNextToken();
-		// creates the list of tokens
-		while (tok != null) {
-			if (isExpression(tok)) {
-				listOfTokens.add(tok);
-			}
-			tok = scanner.getNextToken();
+		if (tok == null) {
+			return null;
 		}
 
-		Node ret = parseRest(listOfTokens);
-
-		return ret;
+		Node curNode;
+		if (tok.getType() == TokenType.LPAREN) {
+			curNode = new Node();
+			curNode.setCar(parseRest());
+		} else if (tok.getType() == TokenType.RPAREN) {
+			return null;
+		} else {
+			curNode = new Node();
+			Node carNode = new Node(tok);
+			curNode.setCar(carNode);
+		}
+		return curNode;
 	}
 
-	protected Node parseRest(ArrayList<Token> listOfTokens) {
+	protected Node parseRest() {
 		// TODO: write code for parsing rest
-		return null;
+		Node rootNode = new Node();
+		Node curNode = rootNode;
+		while(true){
+			curNode.setCar(parseExp());
+			if(curNode.getCar() == null){
+				curNode.setCdr(null);
+				break;
+			}
+			if(curNode.getCar().getCar().getValue().getType() == TokenType.DOT){
+				curNode.setCdr(parseExp());
+				if(curNode.getCdr() == null){
+					System.out.println("There should have been something after the dot, shame on you");
+				}
+				Node shouldBeRP = parseExp();
+				if(shouldBeRP != null){
+					System.out.println("Too many things after the dot");
+				}
+				
+				break;
+			}
+			curNode.setCdr(new Node());
+			curNode = curNode.getCdr();
+		}
+		if(rootNode.getCar().getCar().getValue().getType() ==TokenType.DOT){
+			System.out.println("There should have been something before the dot");
+		}
+		
+		return rootNode;
 	}
 
 	private boolean isExpression(Token t) {
-		if(t.getType() == TokenType.LPAREN){
+		if (t.getType() == TokenType.LPAREN) {
 			return isRest(t);
 		}
 		return (t.getType() == TokenType.FALSE || t.getType() == TokenType.TRUE || t.getType() == TokenType.IDENT
-				|| t.getType() == TokenType.INT  || t.getType() == TokenType.QUOTE
-				|| t.getType() == TokenType.STRING);
+				|| t.getType() == TokenType.INT || t.getType() == TokenType.QUOTE || t.getType() == TokenType.STRING);
 	}
-	
-	private boolean isRest(Token t){
-		while(isExpression(t)){
-			
+
+	private boolean isRest(Token t) {
+		while (isExpression(t)) {
+
 		}
-		return (t.getType() == TokenType.RPAREN );
+		return (t.getType() == TokenType.RPAREN);
 	}
 };

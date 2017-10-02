@@ -19,8 +19,11 @@ class Scanner {
 		// and read characters out of that buffer, but reading individual
 		// characters from the input stream is easier.
 		try {
+			
 			bite = in.read();
-
+            if(bite == -1){
+            	return null;
+            }
 			// skip white space and comments
 			while (isWhiteSpace((char) bite)) {
 				bite = in.read();
