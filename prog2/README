@@ -1,0 +1,7 @@
+Group Members:
+Victoria Reed
+Trenton Ford
+
+This program can scan and tokenize user input, which is then parsed in 
+accordance with the simplified Scheme grammar rules. The parser 
+style in the format specified by the assignment documentation..
